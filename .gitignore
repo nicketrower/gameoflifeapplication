@@ -1,0 +1,16 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/GameOfLifeApplication/config
+/.vs/GameOfLifeApplication/DesignTimeBuild
+/.vs/GameOfLifeApplication/FileContentIndex
+/bin/Debug
+/.vs/GameOfLifeApplication/v17
+/GameOfLifeAPI/.vs
+/GameOfLifeAPI/bin/Debug/net8.0
+/GameOfLifeAPI/obj
+/GameOfLifeAPI.Tests/bin/Debug/net8.0
+/GameOfLifeAPI.Tests/obj
+/obj
+/.vs/ProjectEvaluation
