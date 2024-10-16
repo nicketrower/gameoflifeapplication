@@ -29,14 +29,34 @@ namespace GameOfLifeAPI.Services
            return mockDTO;
         }
 
-        public string GetNextStateAsync()
+        public async Task<IEnumerable<Cell>> GetNextStateAsync(IEnumerable<Cell> seed)
         {
-            throw new NotImplementedException();
+            return KillUnderPopulatedCells(seed);
         }
 
-        public string PostStateAsync()
+        public async Task<MockDTO> PostStateAsync(MockDTO mockDTO)
         {
-            throw new NotImplementedException();
+            await _cacheService.SetCacheValueAsync(CacheKey, mockDTO, CacheExpiration);
+            return mockDTO;
+        }
+
+        private static IEnumerable<Cell> KillUnderPopulatedCells(IEnumerable<Cell> seed)
+        {
+            return Kill(GetUnderPopulatedCells(seed)).Union(seed);
+        }
+
+        private static IEnumerable<Cell> GetUnderPopulatedCells(IEnumerable<Cell> cells)
+        {
+            return cells.Where(cell => cell.Alive && cell.Neighbours < 2);
+        }
+
+        private static IEnumerable<Cell> Kill(IEnumerable<Cell> cells)
+        {
+            foreach (var cell in cells)
+            {
+                cell.Kill();
+                yield return cell;
+            }
         }
     }
 }

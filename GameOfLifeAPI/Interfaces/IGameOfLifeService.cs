@@ -4,9 +4,9 @@ namespace GameOfLifeAPI.Interfaces
 {
     public interface IGameOfLifeService
     {
-        public Task<string> GetNextStateAsync();
+        public Task<IEnumerable<Cell>> GetNextStateAsync(IEnumerable<Cell> seed);
         public Task<MockDTO> GetFurtureStateAsync();
         public Task<string> GetFinalStateAsync();
-        public Task<string> PostStateAsync();
+        public Task<MockDTO> PostStateAsync(MockDTO mockDTO);
     }
 }

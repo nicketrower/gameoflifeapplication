@@ -1,3 +1,4 @@
+using DistributedCachePollyDecorator.Policies;
 using GameOfLifeAPI.Interfaces;
 using GameOfLifeAPI.Services;
 using StackExchange.Redis;
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHealthChecks();
 
 builder.Services.AddTransient<IGameOfLifeService, GameOfLifeService>();
 
@@ -18,6 +20,8 @@ var redisConfiguration = builder.Configuration.GetSection("Redis")["ConnectionSt
 var redis = ConnectionMultiplexer.Connect(redisConfiguration);
 builder.Services.AddSingleton<IConnectionMultiplexer>(redis);
 builder.Services.AddSingleton<IRedisCacheService, RedisCacheService>();
+
+
 
 var app = builder.Build();
 
@@ -28,6 +32,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.MapHealthChecks("/health");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

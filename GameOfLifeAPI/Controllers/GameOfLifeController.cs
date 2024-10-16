@@ -19,10 +19,10 @@ namespace GameOfLifeAPI.Controllers
             _gameOfLife = gameOfLife;
         }
 
-        [HttpGet("GetNextState")]
-        public async Task<string> GetNextStateAsync()
+        [HttpPost("GetNextState")]
+        public async Task<IEnumerable<Cell>> GetNextStateAsync([FromBody] IEnumerable<Cell> seed)
         {
-           return await _gameOfLife.GetNextStateAsync();
+           return await _gameOfLife.GetNextStateAsync(seed);
          
         }
 
@@ -34,17 +34,17 @@ namespace GameOfLifeAPI.Controllers
         }
 
         [HttpGet("GetFinalState")]
-        public string GetFinalState()
+        public async Task<string> GetFinalStateAsync()
         {
-            _gameOfLife.GetFinalStateAsync();
+            await _gameOfLife.GetFinalStateAsync();
             return "Get Future State";
         }
 
         [HttpPost("PostState")]
-        public string PostStateAsync()
+        public async Task<MockDTO> PostStateAsync([FromBody] MockDTO mockDTO)
         {
-            _gameOfLife.PostState();
-            return "Get Future State";
+          return await _gameOfLife.PostStateAsync(mockDTO);
+        
         }
     }
 }
