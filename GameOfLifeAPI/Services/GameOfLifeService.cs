@@ -1,7 +1,5 @@
 ﻿using GameOfLifeAPI.Interfaces;
 using GameOfLifeAPI.Models;
-using Polly.Caching;
-using System.Text.Json;
 
 namespace GameOfLifeAPI.Services
 {
