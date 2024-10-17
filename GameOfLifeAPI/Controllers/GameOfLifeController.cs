@@ -17,8 +17,6 @@ namespace GameOfLifeAPI.Controllers
         /// <summary>
         /// ContactDetailController
         /// </summary>
-        /// <param name="loggeer"></param>
-        /// <param name="gameoflifeinterface"></param>
         public GameOfLifeController(ILogger<GameOfLifeController> logger, IGameOfLifeService gameOfLife)
         {
             _logger = logger;
@@ -26,43 +24,77 @@ namespace GameOfLifeAPI.Controllers
         }
 
         /// <summary>
-        /// GET Next State based on Seed
+        /// GET Next State based on Seed Data
         /// </summary>
-        /// <param name="seed"></param>
         /// <returns>
-        /// code = 200, message = "OK", response = EmailDTO
-        /// code = 204, message = "NO_CONTENT - Record not found", response = EmailDTO
-        /// code = 400, message = "BAD_REQUEST", response = EmailDTO
-        /// code = 404, message = "NOT_FOUND - Error in the Request URL/Headers", response = EmailDTO
-        /// code = 406, message = "NOT_ACCEPTABLE - Invalid/Missing Id", response = EmailDTO
-        /// code = 500, message = "INTERNAL_SERVER_ERROR", response = EmailDTO
+        /// code = 200, message = "OK", response = Cell
+        /// code = 400, message = "BAD_REQUEST", response = Exception
+        /// code = 500, message = "INTERNAL_SERVER_ERROR", response = Exception
         /// </returns>
         [HttpPost("GetNextState")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IEnumerable<Cell>> GetNextStateAsync([FromBody] IEnumerable<Cell> seed)
+        public async Task<IActionResult> GetNextStateAsync([FromBody] IEnumerable<Cell> seed)
         {
-           return await _gameOfLife.GetNextStateAsync(seed);
-         
+            try
+            {
+                return Ok(await _gameOfLife.GetNextStateAsync(seed));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
         }
 
+        /// <summary>
+        /// GET Future State based on Seed Data
+        /// </summary>
+        /// <returns>
+        /// code = 200, message = "OK", response = Cell
+        /// code = 400, message = "BAD_REQUEST", response = Exception
+        /// code = 500, message = "INTERNAL_SERVER_ERROR", response = Exception
+        /// </returns>
         [HttpGet("GetFutureState")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<MockDTO> GetFurtureStateAsync()
         {
            return  await _gameOfLife.GetFurtureStateAsync();
            
         }
 
+        /// <summary>
+        /// GET Future State based on Seed Data
+        /// </summary>
+        /// <returns>
+        /// code = 200, message = "OK", response = Cell
+        /// code = 400, message = "BAD_REQUEST", response = Exception
+        /// code = 500, message = "INTERNAL_SERVER_ERROR", response = Exception
+        /// </returns>
         [HttpGet("GetFinalState")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<string> GetFinalStateAsync()
         {
             await _gameOfLife.GetFinalStateAsync();
             return "Get Future State";
         }
 
+        /// <summary>
+        /// GET Future State based on Seed Data
+        /// </summary>
+        /// <returns>
+        /// code = 200, message = "OK", response = Cell
+        /// code = 400, message = "BAD_REQUEST", response = Exception
+        /// code = 500, message = "INTERNAL_SERVER_ERROR", response = Exception
+        /// </returns>
         [HttpPost("PostState")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<MockDTO> PostStateAsync([FromBody] MockDTO mockDTO)
         {
           return await _gameOfLife.PostStateAsync(mockDTO);
