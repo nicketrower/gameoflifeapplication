@@ -1,0 +1,58 @@
+<canvas
+  #canvas
+  (click)="onBoardClick($event)"
+  (contextmenu)="onContextMenu($event)"
+></canvas>
+
+
+<div
+  style="visibility: hidden; position: fixed;"
+  [style.left]="contextMenuPosition.x"
+  [style.top]="contextMenuPosition.y"
+  [matMenuTriggerFor]="rightMenu"
+></div>
+
+<!-- standard material menu -->
+<mat-menu #rightMenu="matMenu">
+    <ng-template matMenuContent let-item="item">
+      Paint to board:
+      <button mat-menu-item (click)="paintPredefinedObject('vertDoubleU')">
+        <img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAwCAYAAADpVKHaAAAAbUlEQVRYhe2XSQrAMAwDq9L/f9m99mBwccgCGp1NBoSSyIqIuDbp3gUG7gl/qgFJ7cOri+Rruy+8DFymLEidYPraDhw48CUSBRL4SrU63N8vlQ4HHDjws1+4TCOb61e+tvvCy8DNrHi+tgP3g79lzxdhcNc9lgAAAABJRU5ErkJggg=="
+          alt=""
+        />
+      </button>
+      <button mat-menu-item (click)="paintPredefinedObject('horDoubleU')">
+        <img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAaCAYAAAAnkAWyAAAAaElEQVRYhe2X2wkAIAwDG3H/lesCFuoDQiD3K5YjEIvIzAxRBlvgBcuzkJaf1QGA66G7N+D3vAjx5C3PQlq+LOyOl2XcvXtSbOnkLc9CWv6osN0y/d6wFdLJW56FtDz8hyVheRaWZ7EA4TcXMWrt8NUAAAAASUVORK5CYII="
+          alt=""
+        />
+      </button>
+      <button mat-menu-item (click)="paintPredefinedObject('octagon')">
+        <img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACcAAAAkCAYAAAAKNyObAAAAcklEQVRYhe2YwQqAQAgFM/r/X7Z7WSxzqHeYOS4KgyjKVnf3Fsr+t8Abx2pgVd3eVotOc6MrpxwlWm4ciNUGnuImVnOvcdGVU44SLTcOBG3gJ9wQX6McRTmKcpRoOU8minKUaDlPJopylGi58n8OohzlBDNtMkMvskbeAAAAAElFTkSuQmCC"
+          alt=""
+        />
+      </button>
+      <button mat-menu-item (click)="paintPredefinedObject('glider')">
+        <img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAaCAYAAABCfffNAAAAUUlEQVRIie2VUQoAIAhDW3T/K68DpOCifob7FOHBniBIcnzO/A1oiJylLAM4ZpW78anLByKJjyRXjsGnLh9IKj4SehufunwgqfiXr9+nroZI2UP0EDXiScnmAAAAAElFTkSuQmCC"
+          alt=""
+        />
+      </button>
+  
+      <button mat-menu-item (click)="paintPredefinedObject('heavyGlider')">
+        <img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAeCAYAAAC8AUekAAAAfElEQVRYhe2YUQoAIQgF16X7X9n+lyAx2deA8x8NjzTL3N0fKK9a4ISRWWRm1R4hvocEnXzLq0DLbwt2VZx/dNdIU0An3/Iq0PLbgr159EEn3/Iq0PJX3LDZPdDJt7wKtLxV/R5E37WVxY5OvuVVoOVTn04rFKMzOnm0/AQEkh06/HounAAAAABJRU5ErkJggg=="
+          alt=""
+        />
+      </button>
+      <button mat-menu-item (click)="paintPredefinedObject('measuringStick')">
+        <img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAVCAYAAACzK0UYAAAATklEQVRIiWP8////fwYaAyZaW0A3S1hIUczIyEiUOvQYGD7BNXwswRnx5EYyNjB8gmv4WIIz4rFFKLGJAR0Mn+AaPpaQVNSTW4kOn+ACAOixECsd4tBpAAAAAElFTkSuQmCC"
+          alt=""
+        />
+      </button>
+    </ng-template>
+  </mat-menu>
+  

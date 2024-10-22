@@ -1,0 +1,10 @@
+canvas {
+  border: solid 2px #3f51b5;
+  margin: 15px;
+}
+
+#game-board-wrapper {
+  max-width: 100vw;
+  height: 100%;
+  overflow-x: auto;
+}

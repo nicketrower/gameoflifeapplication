@@ -1,0 +1,81 @@
+<div id="gamesettings-container">
+    <form [formGroup]="settingsForm" novalidate>
+      <table cellspacing="0">
+        <tr>
+          <td>
+            <mat-form-field  appearance="outline"
+            style="font-size:12px; width:140px;">
+              <input matInput formControlName="boardId">
+              <mat-label><b>Board Id</b></mat-label>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field  appearance="outline"
+            style="font-size:12px; width:140px;">
+              <input matInput formControlName="boardName">
+              <mat-label><b>Board Name</b></mat-label>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field
+              appearance="outline"
+              style="font-size:12px; width:140px;"
+            >
+              <mat-select formControlName="boardHeight">
+                <mat-option
+                  *ngFor="let height of dimensionsSelection"
+                  [value]="height"
+                  >{{ height | numberFormat }}</mat-option
+                >
+              </mat-select>
+              <mat-label><b> Height</b></mat-label>
+            </mat-form-field>
+          </td>
+          <td>
+            <div style="padding-bottom: 1.1em;">
+              <span class="multiply">x</span>
+            </div>
+          </td>
+          <td>
+            <mat-form-field
+              appearance="outline"
+              style="font-size:12px; width:140px;"
+            >
+              <mat-select formControlName="boardWidth">
+                <mat-option
+                  *ngFor="let width of dimensionsSelection"
+                  [value]="width"
+                  >{{ width | numberFormat }}</mat-option
+                >
+              </mat-select>
+              <mat-label><b> Width</b></mat-label>
+            </mat-form-field>
+          </td>
+  
+          <td>
+            <div style="padding-bottom: 1.1em;">
+              <span class="multiply">||</span>
+            </div>
+          </td>
+          <td>
+            <mat-form-field
+              appearance="outline"
+              style="font-size:12px; width:140px;"
+            >
+              <mat-select formControlName="boardResolution">
+                <mat-option
+                  *ngFor="let resolution of resolutionSelection"
+                  [value]="resolution"
+                  >{{ resolution }}</mat-option
+                >
+              </mat-select>
+              <mat-label><b> Resolution</b></mat-label>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+  
+      <mat-slide-toggle formControlName="showGrid">show grid</mat-slide-toggle>
+    </form>
+  </div>
+  

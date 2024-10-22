@@ -1,0 +1,26 @@
+<div class="button-row">
+    <button mat-raised-button color="primary" (click)="onStartStop()">
+      {{ (isRunning$ | async) ? 'Stop' : 'Start' }}
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onRandomBoard()"
+      [disabled]="isRunning$ | async"
+    >
+      Random Board
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onClearBoard()"
+      [disabled]="isRunning$ | async"
+    >
+      Clear Board
+    </button>
+  
+    <button mat-raised-button color="accent" (click)="openDialog()">
+      <mat-icon> help_outline </mat-icon>
+    </button>
+  </div>
+  

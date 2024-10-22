@@ -1,0 +1,10 @@
+.button-row {
+    padding: 10px;
+    border-bottom: solid 2px #3f51b5;
+    background-color: rgb(224, 209, 238);
+    width: 100%;
+  }
+  
+  button {
+    margin-right: 10px;
+  }

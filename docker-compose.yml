@@ -8,15 +8,26 @@ services:
     environment:
      - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "8080:80"
+      - "8181:8181"
     depends_on:
       - "redis_cache"
+      - "gameoflifeui"
     restart: always
     links:
       - "redis_cache"
     networks:
       - "net"
 
+  gameoflifeui:
+    image: gameoflifeui
+    build:
+      context: gameoflifeui
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    restart: always
+    networks: 
+      - "net"
  
   redis_cache:
     image: redis
