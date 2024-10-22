@@ -6,7 +6,7 @@
       mat-raised-button
       color="primary"
       (click)="onRandomBoard()"
-      [disabled]="isRunning$ | async"
+      [disabled]="(isRunning$ | async)"
     >
       Random Board
     </button>
