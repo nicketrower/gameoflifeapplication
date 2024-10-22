@@ -1,4 +1,5 @@
 using GameOfLifeAPI.Interfaces;
+using GameOfLifeAPI.Models;
 using GameOfLifeAPI.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -13,11 +14,14 @@ namespace GameOfLifeAPI.Tests.Services
         private readonly Mock<IDatabase> _mockDatabase;
         private readonly Mock<ILogger<RedisCacheService>> _mockLogger;
         private readonly RedisCacheService _service;
+        private readonly Mock<IServer> _mockServer;
+
 
         public RedisCacheServiceTests()
         {
             _mockConnectionMultiplexer = new Mock<IConnectionMultiplexer>();
             _mockDatabase = new Mock<IDatabase>();
+            _mockServer = new Mock<IServer>();
             _mockLogger = new Mock<ILogger<RedisCacheService>>();
 
             _mockConnectionMultiplexer.Setup(x => x.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(_mockDatabase.Object);
@@ -109,6 +113,20 @@ namespace GameOfLifeAPI.Tests.Services
 
             // Act
             var result = await _service.GetCacheValueAsync<object>(key);
+
+            // Assert
+            Assert.Null(result);
+        }
+
+       
+        [Fact]
+        public async Task GetAllKeysAsync_ReturnsDefault_WhenExceptionIsThrown()
+        {
+            // Arrange
+            _mockServer.Setup(x => x.Keys(It.IsAny<int>(), It.IsAny<RedisValue>(), It.IsAny<int>(), It.IsAny<long>(), It.IsAny<int>(), It.IsAny<CommandFlags>())).Throws(new Exception("Test exception"));
+
+            // Act
+            var result = await _service.GetAllKeysAsync<GameBoardState>();
 
             // Assert
             Assert.Null(result);

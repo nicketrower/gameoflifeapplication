@@ -303,5 +303,42 @@ namespace GameOfLifeAPI.Tests.Controllers
             Assert.Equal(StatusCodes.Status500InternalServerError, internalServerErrorResult.StatusCode);
             Assert.Equal("An error occurred while processing your request.", internalServerErrorResult.Value);
         }
+
+        [Fact]
+        public async Task GetStoredBoards_ReturnsOkResult_WithStoredBoards()
+        {
+            // Arrange
+            var storedBoards = new List<GameBoardState>
+            {
+                new GameBoardState
+                {
+                    SessionState = new SessionState { BoardName = "Board1", BoardHeight = 10, BoardWidth = 10, BoardResolution = 1, ShowGrid = true },
+                    GameBoardArr = new List<List<int>> { new List<int> { 0, 1 }, new List<int> { 1, 0 } }
+                }
+            };
+            _mockGameOfLifeService.Setup(x => x.GetStoredBoards()).ReturnsAsync(storedBoards);
+
+            // Act
+            var result = await _controller.GetStoredBoards();
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<List<GameBoardState>>(okResult.Value);
+            Assert.Equal(storedBoards.Count, returnValue.Count);
+        }
+
+        [Fact]
+        public async Task GetStoredBoards_ReturnsBadRequest_WhenExceptionIsThrown()
+        {
+            // Arrange
+            _mockGameOfLifeService.Setup(x => x.GetStoredBoards()).ThrowsAsync(new Exception("Test exception"));
+
+            // Act
+            var result = await _controller.GetStoredBoards();
+
+            // Assert
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal(StatusCodes.Status400BadRequest, badRequestResult.StatusCode);
+        }
     }
 }

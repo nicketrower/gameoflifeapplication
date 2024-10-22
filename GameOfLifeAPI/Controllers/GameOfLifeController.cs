@@ -56,6 +56,31 @@ namespace GameOfLifeAPI.Controllers
         }
 
         /// <summary>
+        /// GET All Stored Boards
+        /// </summary>
+        /// <returns>
+        /// code = 200, message = "OK", response = Cell
+        /// code = 400, message = "BAD_REQUEST", response = Exception
+        /// code = 500, message = "INTERNAL_SERVER_ERROR", response = Exception
+        /// </returns>
+        [HttpGet("GetStoredBoards")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetStoredBoards()
+        {
+            try
+            {
+                return Ok(await _gameOfLife.GetStoredBoards());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+        }
+        
+
+        /// <summary>
         /// GET Next State based on Seed Data
         /// </summary>
         /// <param name="id">The unique identifier of the board.</param>

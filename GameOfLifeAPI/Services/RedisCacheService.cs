@@ -1,4 +1,6 @@
 ﻿using GameOfLifeAPI.Interfaces;
+using GameOfLifeAPI.Models;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using StackExchange.Redis;
 using System.Text.Json;
 
@@ -69,6 +71,44 @@ namespace GameOfLifeAPI.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while getting cache value for key: {Key}", key);
+                return default;
+            }
+        }
+        #endregion
+
+
+        #region GetAllKeysAsync
+        /// <summary>
+        /// Gets a value from the Redis cache.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to retrieve.</typeparam>
+        /// <param name="key">The cache key.</param>
+        /// <returns>The cached value, or default if not found.</returns>
+        public async Task<List<GameBoardState>> GetAllKeysAsync<T>()
+        {
+            try
+            {
+                List<GameBoardState> gameBoardStates = new List<GameBoardState>();
+
+                var endpoints = _redis.GetEndPoints();
+                var db = _redis.GetServer(endpoints[0]);
+                foreach (var key in db.Keys())
+                {
+                    var value = await GetCacheValueAsync<GameBoardState>(key);
+                    gameBoardStates.Add(value);
+                    _logger.LogInformation("Key: {Key}", key);
+                }
+
+                return gameBoardStates;
+            }
+            catch (RedisException ex)
+            {
+                _logger.LogError(ex, "Redis error occurred while getting cache value for key: {Key}");
+                return default;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while getting cache value for key: {Key}");
                 return default;
             }
         }

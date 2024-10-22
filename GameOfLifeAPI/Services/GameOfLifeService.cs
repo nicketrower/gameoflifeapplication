@@ -51,6 +51,34 @@ namespace GameOfLifeAPI.Services
         }
         #endregion
 
+        #region GetStoredBoards
+        /// <summary>
+        /// Retrieves all stored game board states from the cache.
+        /// </summary>
+        /// <returns>A list of GameBoardState objects representing the stored game boards.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when an error occurs while retrieving the stored boards.</exception>
+        public async Task<List<GameBoardState>> GetStoredBoards()
+        {
+            try
+            {
+                // Retrieve all stored game board states from the cache
+                List<GameBoardState> storedBoards = await _cacheService.GetAllKeysAsync<List<GameBoardState>>();
+                if (storedBoards == null)
+                {
+                    _logger.LogError("Failed to retrieve the board states from the cache.");
+                    return new List<GameBoardState>();
+                }
+
+                return storedBoards;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving the stored board states.");
+                throw new InvalidOperationException("An error occurred while retrieving the stored board states.", ex);
+            }
+        }
+        #endregion
+
         #region GetFurtureStateAsync
         /// <summary>
         /// Retrieves the future state of the game board based on the current state and the number of iterations.
@@ -74,7 +102,8 @@ namespace GameOfLifeAPI.Services
             {
                 // Calculate the future state of the game board for the specified number of iterations
                 var futureBoardState = gameBoardState.GameBoardArr;
-                if (futurecount > 0) {
+                if (futurecount > 0)
+                {
                     for (int i = 0; i < futurecount; i++)
                     {
                         futureBoardState = await NextStateIterate(new GameBoardState { SessionState = gameBoardState.SessionState, GameBoardArr = futureBoardState });

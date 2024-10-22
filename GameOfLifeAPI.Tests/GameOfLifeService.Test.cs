@@ -20,7 +20,7 @@ namespace GameOfLifeAPI.Tests.Services
             _service = new GameOfLifeService(_mockCacheService.Object, _mockLogger.Object);
         }
 
-        
+
         [Fact]
         public async Task GetNextStateAsync_ThrowsKeyNotFoundException_WhenBoardStateNotFound()
         {
@@ -104,7 +104,7 @@ namespace GameOfLifeAPI.Tests.Services
             _mockCacheService.Verify(service => service.GetCacheValueAsync<GameBoardState>(boardId), Times.Once);
         }
 
-       
+
         [Fact]
         public async Task GetFinalStateAsync_ThrowsKeyNotFoundException_WhenBoardStateNotFound()
         {
@@ -370,6 +370,54 @@ namespace GameOfLifeAPI.Tests.Services
             // Act & Assert
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _service.NextStateIterate(gameBoardState));
             Assert.Equal("Failed to update the board state in the cache.", exception.Message);
+        }
+
+        [Fact]
+        public async Task GetStoredBoards_ReturnsStoredBoards_WhenCacheIsNotEmpty()
+        {
+            // Arrange
+            var storedBoards = new List<GameBoardState>
+            {
+                new GameBoardState
+                {
+                    SessionState = new SessionState { BoardName = "Board1", BoardHeight = 10, BoardWidth = 10, BoardResolution = 1, ShowGrid = true },
+                    GameBoardArr = new List<List<int>> { new List<int> { 0, 1 }, new List<int> { 1, 0 } }
+                }
+            };
+            _mockCacheService.Setup(x => x.GetAllKeysAsync<List<GameBoardState>>()).ReturnsAsync(storedBoards);
+
+            // Act
+            var result = await _service.GetStoredBoards();
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(storedBoards.Count, result.Count);
+            Assert.Equal(storedBoards[0].SessionState.BoardId, result[0].SessionState.BoardId);
+        }
+
+        [Fact]
+        public async Task GetStoredBoards_ReturnsEmptyList_WhenCacheIsEmpty()
+        {
+            // Arrange
+            _mockCacheService.Setup(x => x.GetAllKeysAsync<List<GameBoardState>>()).ReturnsAsync((List<GameBoardState>)null);
+
+            // Act
+            var result = await _service.GetStoredBoards();
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public async Task GetStoredBoards_ThrowsInvalidOperationException_WhenCacheServiceThrowsException()
+        {
+            // Arrange
+            _mockCacheService.Setup(x => x.GetAllKeysAsync<List<GameBoardState>>()).ThrowsAsync(new Exception("Cache error"));
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _service.GetStoredBoards());
+            Assert.Equal("An error occurred while retrieving the stored board states.", exception.Message);
         }
     }
 }
