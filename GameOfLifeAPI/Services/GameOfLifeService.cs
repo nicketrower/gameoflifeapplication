@@ -211,6 +211,12 @@ namespace GameOfLifeAPI.Services
         /// <exception cref="InvalidOperationException">Thrown when the board state cannot be created in the cache.</exception>
         public async Task<GameBoardState> CreateNewBoard(SessionState sessionState)
         {
+            if (sessionState.BoardName.Length < 1 || sessionState.BoardResolution < 10 || sessionState.BoardWidth < 800 || sessionState.BoardWidth < 800)
+            {
+                _logger.LogError("Invalid POST data elements provided.");
+                throw new ArgumentException("Invalid POST data elements provided.");
+            }
+
             int numOfRows = sessionState.BoardHeight / sessionState.BoardResolution;
             int numOfCols = sessionState.BoardWidth / sessionState.BoardResolution;
 
