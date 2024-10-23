@@ -9,6 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameOfLifeAPI.Tests", "Game
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{E65C67FA-4A8C-418B-B741-780FD18F188B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{BC64B148-43CD-498F-848F-A3A5F6D3005A}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\OneDrive - H&R BLOCK LTD\Desktop\Game Of Life Architecture.pdf = ..\..\..\OneDrive - H&R BLOCK LTD\Desktop\Game Of Life Architecture.pdf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
